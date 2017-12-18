@@ -1,20 +1,34 @@
-FROM centos:latest
-MAINTAINER left2right <yqzhang@easemob.com>
+FROM debian:jessie-slim
+MAINTAINER Zichao Li <zichao@haxii.com>
 
-RUN rpm -ivh https://mirrors.ustc.edu.cn/epel/epel-release-latest-7.noarch.rpm && \
-    yum -y update && \
-    yum -y install snappy-devel && \
-    yum -y install protobuf-devel && \
-    yum -y install gflags-devel && \
-    yum -y install glog-devel && \
-    yum -y install gcc-c++ && \
-    yum -y install make && \
-    yum -y install git
+# install pika dependency
+RUN apt-get -y update && \
+    apt-get -y install libsnappy-dev libgoogle-glog-dev && \
+    apt-get -y install libgoogle-perftools-dev &&\
+    rm -rf /var/lib/apt/lists/*
 
-ENV PIKA  /pika
-COPY . ${PIKA}
-WORKDIR ${PIKA}
-RUN make
-ENV PATH ${PIKA}/output/bin:${PATH}
+#build pika
+COPY . /pika
+WORKDIR /pika
+RUN set -eux; \
+    makeDeps='make git gcc g++'; \
+    apt-get -y install -y --no-install-recommends $makeDeps; \
+    make; \
+    mv output ../ ;\
+    rm -rf ./* ;\
+    mv ../output/* . ;\
+    rm -r ../output/ ;\
+    apt-get purge -y --auto-remove $makeDeps
 
-WORKDIR ${PIKA}/output
+ENV PATH $/pika/bin:${PATH}
+
+WORKDIR /pika/output
+
+EXPOSE 9221
+VOLUME /pika/log/
+VOLUME /pika/db/
+VOLUME /pika/dump/
+VOLUME /pika/dbsync/
+VOLUME /pika/conf/
+
+CMD ["pika -c /pika/conf/pika.conf"]
