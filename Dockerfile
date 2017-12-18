@@ -19,7 +19,7 @@ RUN apt-get -y update && \
     apt-get purge -y --auto-remove $makeDeps&& \
     rm -rf /var/lib/apt/lists/*
 
-ENV PATH $/pika/bin:${PATH}
+ENV PATH /pika/bin:${PATH}
 
 WORKDIR /pika/output
 
@@ -30,4 +30,4 @@ VOLUME /pika/dump/
 VOLUME /pika/dbsync/
 VOLUME /pika/conf/
 
-CMD ["pika -c /pika/conf/pika.conf"]
+CMD ["pika", "-c", "/pika/conf/pika.conf"]
