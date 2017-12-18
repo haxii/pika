@@ -13,15 +13,13 @@ RUN apt-get -y update && \
     apt-get -y install -y --no-install-recommends $makeDeps&& \
     make&& \
     mv output ../&& \
-    rm -rf ./*&& \
-    mv ../output/* .&& \
-    rm -r ../output/&& \
+    cd ..&&\
+    rm -rf ./pika&& \
+    mv output pika&& \
     apt-get purge -y --auto-remove $makeDeps&& \
     rm -rf /var/lib/apt/lists/*
 
 ENV PATH /pika/bin:${PATH}
-
-WORKDIR /pika/output
 
 EXPOSE 9221
 VOLUME /pika/log/
