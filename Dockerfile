@@ -10,14 +10,13 @@ RUN apt-get -y update && \
 #build pika
 COPY . /pika
 WORKDIR /pika
-RUN set -eux; \
-    makeDeps='make git gcc g++'; \
-    apt-get -y install -y --no-install-recommends $makeDeps; \
-    make; \
-    mv output ../ ;\
-    rm -rf ./* ;\
-    mv ../output/* . ;\
-    rm -r ../output/ ;\
+RUN makeDeps='make git gcc g++'&& \
+    apt-get -y install -y --no-install-recommends $makeDeps&& \
+    make&& \
+    mv output ../&& \
+    rm -rf ./*&& \
+    mv ../output/* .&& \
+    rm -r ../output/&& \
     apt-get purge -y --auto-remove $makeDeps
 
 ENV PATH $/pika/bin:${PATH}
