@@ -4,7 +4,7 @@ MAINTAINER Zichao Li <zichao@haxii.com>
 # install pika dependency
 RUN apt-get -y update && \
     apt-get -y install libsnappy-dev libgoogle-glog-dev && \
-    apt-get -y install libgoogle-perftools-dev &&\
+    apt-get -y install libgoogle-perftools-dev
 
 #build pika
 COPY . /pika
