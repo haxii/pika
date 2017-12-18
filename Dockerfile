@@ -5,7 +5,6 @@ MAINTAINER Zichao Li <zichao@haxii.com>
 RUN apt-get -y update && \
     apt-get -y install libsnappy-dev libgoogle-glog-dev && \
     apt-get -y install libgoogle-perftools-dev &&\
-    rm -rf /var/lib/apt/lists/*
 
 #build pika
 COPY . /pika
@@ -17,7 +16,8 @@ RUN makeDeps='make git gcc g++'&& \
     rm -rf ./*&& \
     mv ../output/* .&& \
     rm -r ../output/&& \
-    apt-get purge -y --auto-remove $makeDeps
+    apt-get purge -y --auto-remove $makeDeps&& \
+    rm -rf /var/lib/apt/lists/*
 
 ENV PATH $/pika/bin:${PATH}
 
