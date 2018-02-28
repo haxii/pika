@@ -9,6 +9,7 @@ WORKDIR /pika
 RUN apt-get -y update && \
     apt-get -y install libsnappy-dev libgoogle-glog-dev && \
     apt-get -y install libgoogle-perftools-dev && \
+    apt-get -y install rsync && \
     makeDeps='ca-certificates git make gcc g++'&& \
     apt-get -y install -y --no-install-recommends $makeDeps&& \
     make&& \
