@@ -1,4 +1,4 @@
-FROM debian:jessie-slim
+FROM debian:stretch-slim
 MAINTAINER Zichao Li <zichao@haxii.com>
 
 #build pika
